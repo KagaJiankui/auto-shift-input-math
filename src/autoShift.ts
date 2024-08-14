@@ -1,43 +1,57 @@
 import * as vscode from 'vscode';
 import { getScope } from './hscopes';
-import { switchInput } from './switch-koffi';
+import { switchIM, getIM } from './switch-koffi';
 
-let cnLParam = vscode.workspace.getConfiguration().get("Settings.ChineseModeCode") ?? 1025
-let enLParam = vscode.workspace.getConfiguration().get("Settings.EnglishModeCode") ?? 0
-let getWParam = vscode.workspace.getConfiguration().get("Settings.GetParam") ?? 0x001
-let setWParam = vscode.workspace.getConfiguration().get("Settings.SetParam") ?? 0x002
-let cursorColor = vscode.workspace.getConfiguration().get("Settings.CursorColor") ?? undefined
+let cursorColor = vscode.workspace.getConfiguration().get("Settings.CursorColor") ?? undefined;
 
 
-let currentComment = false
-let previousInMath = false
+let currentEn = false;
+let previousEn = false;
+// let currentInMath = false;
+// let previousInMath = false;
 
+/**
+ * 自动切换函数，根据当前光标所在位置的代码结构自动调整视角
+ *
+ * @param context 扩展上下文，用于存储和访问扩展的状态和资源
+ */
 export function autoShift(context: vscode.ExtensionContext) {
-    vscode.window.onDidChangeTextEditorSelection(e => toggleCondition(e.textEditor.document, e.selections[0].active))
-}
+  let scopeText_cache = ""; // 初始化缓存
 
-async function toggleCondition(document: any, position: any) {
-
-    let scope = getScope(document, position)
-    if (!scope) return;
-
-    console.log('comment', scope.toString().includes('comment'));
-    currentComment = scope.toString().includes('comment')
-    const configuration = vscode.workspace.getConfiguration('workbench');
-    let backConfig: any = configuration.get('colorCustomizations')
-
-    if (currentComment) {
-        configuration.update('colorCustomizations', { ...backConfig, "editorCursor.foreground": cursorColor || undefined }, true);
-        // configuration.update('colorCustomizations', { "editorCursor.background": "#00c4da" }, true);
-    } else {
-        configuration.update('colorCustomizations', { ...backConfig, "editorCursor.foreground": undefined }, true);
-        // configuration.update('colorCustomizations', { "editorCursor.background": undefined }, true);
-
+  vscode.window.onDidChangeTextEditorSelection(e => {
+    const hscopes = getScope(e.textEditor.document, e.selections[0].active);
+    if (!hscopes) {
+      console.log('Failed to get the scope, skipping...');
+      return;
     }
-    if (currentComment === previousInMath) return;
-    switchInput(setWParam, currentComment ? cnLParam : enLParam)
-
-    previousInMath = currentComment;
-
+    let scopeText = Array.isArray(hscopes) ? hscopes.join(';') : hscopes.toString();
+    if (scopeText !== scopeText_cache) {
+      scopeText_cache = scopeText;
+      toggleCondition(scopeText);
+    }
+  });
 }
 
+async function toggleCondition(scopeText: string) {
+
+  const configuration = vscode.workspace.getConfiguration('workbench');
+  let backConfig: any = configuration.get('colorCustomizations');
+  // 增加识别'math'的判断
+  currentEn = scopeText.includes('comment') || scopeText.includes('math');
+  if (currentEn) {
+    configuration.update('colorCustomizations', { ...backConfig, "editorCursor.foreground": cursorColor || undefined }, true);
+  } else {
+    configuration.update('colorCustomizations', { ...backConfig, "editorCursor.foreground": undefined }, true);
+  }
+  if (currentEn === previousEn) { return; }
+  switchIM(currentEn);
+  previousEn = currentEn;
+}
+
+function showInfo(str: string, res = 'Continue', rej = 'Exit') {
+  return new Promise(function (resolve, reject) {
+    vscode.window.showInformationMessage(str, res, rej).then(result => {
+      (result === res) ? resolve(res) : reject(rej);
+    });
+  });
+}
