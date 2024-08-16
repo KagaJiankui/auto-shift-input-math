@@ -41,7 +41,7 @@ async function toggleCondition(scopeText: string) {
   const configuration = vscode.workspace.getConfiguration('workbench');
   let backConfig: any = configuration.get('colorCustomizations');
   // 增加识别'math'的判断
-  currentZh = (scopeText.includes('comment') || scopeText.includes('text') ) && !scopeText.includes('math');
+  currentZh = (scopeText.includes('comment') || scopeText.includes('text')) && !scopeText.includes('math');
   if (currentZh) {
     configuration.update('colorCustomizations', { ...backConfig, "editorCursor.foreground": cursorColor || undefined }, true);
   } else {

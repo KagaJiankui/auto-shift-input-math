@@ -10,10 +10,10 @@ const GetForegroundWindow = user32.stdcall("GetForegroundWindow", "int32", [])
 const SendMessageW = user32.stdcall("SendMessageW", 'int32', ['long', 'int32', 'int32', 'int32'])
 const ImmGetDefaultIMEWnd = imm32.stdcall("ImmGetDefaultIMEWnd", "int32", ["int32"])
 
-let cnLParam = vscode.workspace.getConfiguration().get("Settings.ChineseModeCode") ?? 1025;
+let cnLParam = vscode.workspace.getConfiguration().get("Settings.ChineseModeCode") ?? 1;
 let enLParam = vscode.workspace.getConfiguration().get("Settings.EnglishModeCode") ?? 0;
 let getWParam = vscode.workspace.getConfiguration().get("Settings.GetParam") ?? 0x001; // 0x001
-let setWParam = vscode.workspace.getConfiguration().get("Settings.SetParam") ?? 0x006; // 0x002
+let setWParam = vscode.workspace.getConfiguration().get("Settings.SetParam") ?? 0x002; // 0x002
 
 /**
  *
