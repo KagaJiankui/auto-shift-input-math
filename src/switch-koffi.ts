@@ -12,18 +12,22 @@ const ImmGetDefaultIMEWnd = imm32.stdcall("ImmGetDefaultIMEWnd", "int32", ["int3
 
 let cnLParam = vscode.workspace.getConfiguration().get("Settings.ChineseModeCode") ?? 1025;
 let enLParam = vscode.workspace.getConfiguration().get("Settings.EnglishModeCode") ?? 0;
-let getWParam = vscode.workspace.getConfiguration().get("Settings.GetParam") ?? 0x001;
-let setWParam = vscode.workspace.getConfiguration().get("Settings.SetParam") ?? 0x002;
+let getWParam = vscode.workspace.getConfiguration().get("Settings.GetParam") ?? 0x001; // 0x001
+let setWParam = vscode.workspace.getConfiguration().get("Settings.SetParam") ?? 0x006; // 0x002
 
 /**
  *
- * 0x283 - IMN_SETCONVERSIONMODE imn.h win32api
+ * 0x283 - IMN_SETCONVERSIONMODE Winuser.h win32api
+ * SendMessageW(ImmGetDefaultIMEWnd(GetForegroundWindow()), MSG, wParam, lParam)
+ * <WinUser.h>
+ * #define WM_IME_CONTROL                  0x0283
+ * 由于发送了WM_IME_CONTROL消息, 因此应当使用IMN系列命令
  * @param wParam 获取输入法状态的索引值,不同输入法可能有差异
  * @param lParam 中英文状态码
  */
 export function sendMsgtoIM(wParam: any, lParam: any) {
-  let hwnd = GetForegroundWindow()
-  let defaultIMEWnd = ImmGetDefaultIMEWnd(hwnd)
+  let hwnd = GetForegroundWindow();
+  let defaultIMEWnd = ImmGetDefaultIMEWnd(hwnd);
   return SendMessageW(defaultIMEWnd, 0x283, wParam, lParam);
 }
 
@@ -41,13 +45,21 @@ export function switchIM(currentIM: boolean) {
 }
 
 /**
- * 发送参数设置指令给输入法管理器
+ * 从IMM获取当前输入法状态
  *
- * 本函数封装了向IM发送参数设置指令的操作，通过调用内部的sendMsgtoIM函数实现
- * 中文: 1052 英文: 0
+ * 发送IMN_GETCONVERSIONMODE消息到IME, 获取当前输入法状态
+ * <ime_cmode.h>, <ime.h>
+ * #define IME_CMODE_ALPHANUMERIC          0x0000
+ * #define IME_CMODE_NATIVE                0x0001
+ * #define IME_CMODE_CHINESE               IME_CMODE_NATIVE
+ * #define IME_CMODE_HANGUL                IME_CMODE_NATIVE
+ * #define IME_CMODE_JAPANESE              IME_CMODE_NATIVE
+ * ...
+ * #define IME_CMODE_SYMBOL                0x0400
+ * 中文: 0x001或0x401 英文: 0
  *
  * @returns {int32} 返回sendMsgtoIM函数的执行结果
  */
-export function getIM() {
-  return sendMsgtoIM(getWParam, 0);
+export function getIM(): number {
+  return 0x401 & sendMsgtoIM(getWParam, 0);
 }
