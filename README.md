@@ -1,4 +1,4 @@
-# auto-shift-input 
+# auto-shift-input
 
 一个vscode插件,能够实现根据光标位置自动切换中英文输入
 
@@ -21,27 +21,27 @@
 ## Extension Settings
 
 ```json
-"Settings.ChineseModeCode": {
+"auto-shift-input.ChineseModeCode": {
   "type": "number",
   "default": 1025,
   "description": "如果想实现其他的语言的自动切换 请修改此值,默认为中文(1025)"
 },
-"Settings.EnglishModeCode": {
+"auto-shift-input.EnglishModeCode": {
   "type": "number",
   "default": 0,
   "description": "如果想实现其他的语言的自动切换 请修改此值, 默认为英文(0)"
 },
-"Settings.GetParam": {
+"auto-shift-input.GetParam": {
   "type": "number",
   "default": 1,
   "description": "检测输入法状态,默认为微软输入法(0x001)"
 },
-"Settings.SetParam": {
+"auto-shift-input.SetParam": {
   "type": "number",
   "default": 2,
   "description": "切换输入法状态,默认为微软输入法(2),QQ/搜狗等(6)"
 },
-"Settings.CursorColor": {
+"auto-shift-input.CursorColor": {
     "type": "string",
     "default": "",
     "description": "中文模式下的光标颜色 默认不设置"
@@ -51,4 +51,3 @@
 ## Plan
 
 - 尝试兼容Linux
-

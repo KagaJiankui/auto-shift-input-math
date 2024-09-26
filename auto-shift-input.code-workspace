@@ -2,9 +2,46 @@
 	"folders": [
 		{
 			"path": "."
+		},
+		{
+			"name": "backend",
+			"path": "native"
 		}
 	],
 	"settings": {
-		"typescript.tsc.autoDetect": "off"
+		"typescript.tsc.autoDetect": "off",
+		"clangd.arguments": [
+			"--all-scopes-completion",
+			"--background-index",
+			"--background-index-priority=low",
+			"--completion-parse=auto",
+			"--completion-style=detailed",
+			"--enable-config",
+			"--header-insertion-decorators",
+			"--header-insertion=iwyu",
+			"--pch-storage=memory",
+			"--query-driver=cl,clang,clang++",
+			"--ranking-model=decision_forest",
+			"-j=24",
+			"--log=error"
+		],
+		"cmake.copyCompileCommands": "${workspaceFolder}/compile_commands.json",
+		"files.associations": {
+			"*.hsnips": "hsnips",
+			"*.m": "matlab",
+			"*.tcc": "cpp",
+			"*.vssettings": "xml",
+			".clang-format": "yaml",
+			".clang-tidy": "yaml",
+			".clangd": "yaml",
+			"cmath": "cpp",
+			"iostream": "cpp",
+			"ostream": "cpp",
+			"string": "cpp",
+			"string_view": "cpp",
+			"windows.h": "c",
+			"winapifamily.h": "c",
+			"im_main.h": "c"
+		},
 	}
 }

@@ -1,7 +1,11 @@
 out
 dist
 node_modules
+.cache
 .vscode-test/
 *.vsix
 src/thirdparty/
 src/thirdparty/*
+build/
+build
+compile_commands.json

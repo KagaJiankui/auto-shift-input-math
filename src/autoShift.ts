@@ -3,15 +3,15 @@ import { getScope } from './hscopes';
 import { getIM, switchIM } from './switch-koffi';
 import { getCharinRange, statusbarLogger } from './utils';
 
-let cursorColor = vscode.workspace.getConfiguration().get("Settings.CursorColor") ?? undefined;
-
+const configuration = vscode.workspace.getConfiguration('workbench');
+const cursorColor = vscode.workspace.getConfiguration().get("auto-shift-input.CursorColor") ?? undefined;
+const tagsInclude = configuration.get<string[]>('auto-shift-input.tagsInclude') || ['text', 'comment', 'string'];
+const tagsExclude = configuration.get<string[]>('auto-shift-input.tagsExclude') || ['math'];
 
 let currentZh = false;
 let previousZh = false;
 let currentEn = false;
 let previousEn = false;
-// let currentInMath = false;
-// let previousInMath = false;
 
 /**
  * 自动切换函数，根据当前光标所在位置的代码结构自动调整视角
@@ -28,7 +28,7 @@ export function autoShift(context: vscode.ExtensionContext) {
       return;
     }
     let scopeText = Array.isArray(hscopes) ? hscopes.join(';') : hscopes.toString();
-    debugIMEStatus(scopeText);
+    // debugIMEStatus(scopeText);
     if (scopeText !== scopeText_cache) {
       scopeText_cache = scopeText;
       toggleCondition(scopeText);
@@ -37,19 +37,17 @@ export function autoShift(context: vscode.ExtensionContext) {
 }
 
 async function toggleCondition(scopeText: string) {
-
-  const configuration = vscode.workspace.getConfiguration('workbench');
   let backConfig: any = configuration.get('colorCustomizations');
   // 增加识别'math'的判断
-  currentZh = (scopeText.includes('comment') || scopeText.includes('text')) && !scopeText.includes('math');
+  currentZh = tagsInclude.some(tag => scopeText.includes(tag)) && !tagsExclude.some(tag => scopeText.includes(tag));
+  previousZh = currentZh || (getIM() >= 1);
+  if (currentZh === previousZh) { return; }
   if (currentZh) {
     configuration.update('colorCustomizations', { ...backConfig, "editorCursor.foreground": cursorColor || undefined }, true);
   } else {
     configuration.update('colorCustomizations', { ...backConfig, "editorCursor.foreground": undefined }, true);
   }
-  if (currentZh === previousZh) { return; }
   switchIM(currentZh);
-  previousZh = currentZh || (getIM() >= 1);
 }
 
 function debugSurrondingChar(e: vscode.TextEditorSelectionChangeEvent) {
