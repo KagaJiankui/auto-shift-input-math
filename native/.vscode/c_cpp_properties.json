@@ -1,0 +1,58 @@
+{
+    "configurations": [
+        {
+            "name": "Win32",
+            "includePath": [
+                "${workspaceFolder}/src",
+                "${workspaceFolder}/include",
+                "${workspaceFolder}/src/**",
+                "${workspaceFolder}/include/**",
+                "${env:INCLUDE}",
+                "C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.40.33807/include",
+                "C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.40.33807/ATLMFC/include",
+                "C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Auxiliary/VS/include",
+                "C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.40.33807/include/**",
+                "C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.40.33807/ATLMFC/include/**",
+                "C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Auxiliary/VS/include/**",
+                "C:/Program Files (x86)/Windows Kits/10/include/10.0.22621.0/ucrt",
+                "C:/Program Files (x86)/Windows Kits/10/include/10.0.22621.0/um",
+                "C:/Program Files (x86)/Windows Kits/10/include/10.0.22621.0/shared",
+                "C:/Program Files (x86)/Windows Kits/10/include/10.0.22621.0/winrt",
+                "C:/Program Files (x86)/Windows Kits/10/include/10.0.22621.0/cppwinrt",
+                "C:/Program Files (x86)/Windows Kits/10/include/10.0.22621.0/ucrt/**",
+                "C:/Program Files (x86)/Windows Kits/10/include/10.0.22621.0/um/**",
+                "C:/Program Files (x86)/Windows Kits/10/include/10.0.22621.0/shared/**",
+                "C:/Program Files (x86)/Windows Kits/10/include/10.0.22621.0/winrt/**",
+                "C:/Program Files (x86)/Windows Kits/10/include/10.0.22621.0/cppwinrt/**",
+                "C:/Program Files (x86)/Windows Kits/NETFXSDK/4.8/include/um",
+                "C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.29.30133/include",
+                "C:/Program Files (x86)/Windows Kits/10/Include/10.0.22000.0/cppwinrt",
+                "C:/Program Files (x86)/Windows Kits/10/Include/10.0.22000.0/shared",
+                "C:/Program Files (x86)/Windows Kits/10/Include/10.0.22000.0/ucrt",
+                "C:/Program Files (x86)/Windows Kits/10/Include/10.0.22000.0/um",
+                "C:/Program Files (x86)/Windows Kits/10/Include/10.0.22000.0/winrt",
+                "C:/Program Files (x86)/Windows Kits/10/Include/10.0.18362.0/cppwinrt",
+                "C:/Program Files (x86)/Windows Kits/10/Include/10.0.18362.0/shared",
+                "C:/Program Files (x86)/Windows Kits/10/Include/10.0.18362.0/ucrt",
+                "C:/Program Files (x86)/Windows Kits/10/Include/10.0.18362.0/um",
+                "C:/Program Files (x86)/Windows Kits/10/Include/10.0.18362.0/winrt",
+                "C:/Program Files (x86)/Windows Kits/10/Include/10.0.19041.0/cppwinrt",
+                "C:/Program Files (x86)/Windows Kits/10/Include/10.0.19041.0/shared",
+                "C:/Program Files (x86)/Windows Kits/10/Include/10.0.19041.0/ucrt",
+                "C:/Program Files (x86)/Windows Kits/10/Include/10.0.19041.0/um",
+                "C:/Program Files (x86)/Windows Kits/10/Include/10.0.19041.0/winrt"
+            ],
+            "defines": [
+                "_DEBUG",
+                "UNICODE",
+                "_UNICODE"
+            ],
+            "cStandard": "c11",
+            "cppStandard": "c++11",
+            "compilerPath": "C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.40.33807/bin/Hostx64/x64/cl.exe",
+            "configurationProvider": "ms-vscode.cmake-tools",
+            "compileCommands": "${workspaceFolder}/build/windows-msvc-x64/compile_commands.json"
+        }
+    ],
+    "version": 4
+}
